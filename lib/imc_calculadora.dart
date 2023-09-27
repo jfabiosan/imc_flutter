@@ -88,7 +88,12 @@ class _IMCCalculadoraState extends State<IMCCalculadora> {
               itemCount: results.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(results[index]),
+                  title: Card(
+                    margin: const EdgeInsets.symmetric(),
+                    elevation: 5,
+                    color: const Color.fromARGB(255, 187, 186, 183),
+                    child: Text(results[index]),
+                  ),
                 );
               },
             ),
