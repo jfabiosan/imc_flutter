@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'data_base_helper.dart';
 import 'pessoa.dart';
 
 class IMCCalculadora extends StatefulWidget {
@@ -14,6 +15,25 @@ class _IMCCalculadoraState extends State<IMCCalculadora> {
   var pesoController = TextEditingController();
   var alturaController = TextEditingController();
   List<String> results = [];
+  final DatabaseHelper _databaseHelper = DatabaseHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    updateResultsList();
+  }
+
+  void updateResultsList() async {
+    List<Map<String, dynamic>>? resultsFromDb =
+        await _databaseHelper.getIMCResults();
+
+    setState(() {
+      results = resultsFromDb!.map((data) {
+        double resultado = data['resultado'];
+        return '${data['nome']}: IMC = ${resultado.toStringAsFixed(2)} - ${classificacao(resultado)}';
+      }).toList();
+    });
+  }
 
   String classificacao(double resultado) {
     if (resultado < 16) {
@@ -35,7 +55,7 @@ class _IMCCalculadoraState extends State<IMCCalculadora> {
     }
   }
 
-  void calcularIMC(Pessoa pessoa) {
+  void calcularIMC(Pessoa pessoa) async {
     double bmi = pessoa.peso / (pessoa.altura * pessoa.altura);
     String result =
         '${pessoa.nome}: IMC = ${bmi.toStringAsFixed(2)} - ${classificacao(bmi)}';
@@ -46,6 +66,8 @@ class _IMCCalculadoraState extends State<IMCCalculadora> {
       pesoController.clear();
       alturaController.clear();
     });
+    await DatabaseHelper()
+        .insertIMCResult(pessoa.nome, pessoa.peso, pessoa.altura, bmi);
   }
 
   @override
