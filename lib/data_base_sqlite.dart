@@ -1,14 +1,14 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHelper {
-  static DatabaseHelper? _instance;
+class DatabaseSqlite {
+  static DatabaseSqlite? _instance;
   Database? _db;
 
-  DatabaseHelper._();
+  DatabaseSqlite._();
 
-  factory DatabaseHelper() {
-    _instance ??= DatabaseHelper._();
+  factory DatabaseSqlite() {
+    _instance ??= DatabaseSqlite._();
     return _instance!;
   }
 

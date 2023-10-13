@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'data_base_helper.dart';
+import 'data_base_sqlite.dart';
 import 'pessoa.dart';
 
 class IMCCalculadora extends StatefulWidget {
@@ -15,7 +15,7 @@ class _IMCCalculadoraState extends State<IMCCalculadora> {
   var pesoController = TextEditingController();
   var alturaController = TextEditingController();
   List<String> results = [];
-  final DatabaseHelper _databaseHelper = DatabaseHelper();
+  final DatabaseSqlite _DatabaseSqlite = DatabaseSqlite();
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _IMCCalculadoraState extends State<IMCCalculadora> {
 
   void updateResultsList() async {
     List<Map<String, dynamic>>? resultsFromDb =
-        await _databaseHelper.getIMCResults();
+        await _DatabaseSqlite.getIMCResults();
 
     setState(() {
       results = resultsFromDb!.map((data) {
@@ -66,7 +66,7 @@ class _IMCCalculadoraState extends State<IMCCalculadora> {
       pesoController.clear();
       alturaController.clear();
     });
-    await DatabaseHelper()
+    await DatabaseSqlite()
         .insertIMCResult(pessoa.nome, pessoa.peso, pessoa.altura, bmi);
   }
 
