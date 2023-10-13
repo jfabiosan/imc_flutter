@@ -15,7 +15,7 @@ class _IMCCalculadoraState extends State<IMCCalculadora> {
   var pesoController = TextEditingController();
   var alturaController = TextEditingController();
   List<String> results = [];
-  final DatabaseSqlite _DatabaseSqlite = DatabaseSqlite();
+  final DatabaseSqlite _databaseSqlite = DatabaseSqlite();
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _IMCCalculadoraState extends State<IMCCalculadora> {
 
   void updateResultsList() async {
     List<Map<String, dynamic>>? resultsFromDb =
-        await _DatabaseSqlite.getIMCResults();
+        await _databaseSqlite.getIMCResults();
 
     setState(() {
       results = resultsFromDb!.map((data) {
